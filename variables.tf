@@ -40,7 +40,7 @@ variable "public_subnets_tags" {
 
 variable "private_subnets_cidrs" {
        type = map
-       default = ["10.0.11.0/24"."10.0.12.0/24"]
+       default = ["10.0.11.0/24","10.0.12.0/24"]
 }
 
 variable "private_subnets_tags" {
@@ -50,7 +50,7 @@ variable "private_subnets_tags" {
 
 variable "database_subnets_cidrs" {
        type = map
-       default = ["10.0.21.0/24"."10.0.22.0/24"]
+       default = ["10.0.21.0/24","10.0.22.0/24"]
 }
 
 variable "database_subnets_tags" {
@@ -87,3 +87,5 @@ variable "nat_gateway_tags" {
       type = map
       default = {}
 }
+
+
