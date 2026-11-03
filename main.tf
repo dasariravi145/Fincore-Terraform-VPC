@@ -2,7 +2,7 @@ resource "aws_vpc" "main" {
   cidr_block       = var.cidr_block
   instance_tenancy = "default"
 
-    tags = local.vpc.ec2_final_tags
+    tags = local.ec2_final_tags
 }
 
 resource "aws_internet_gateway" "main" {
@@ -141,7 +141,7 @@ resource "aws_eip" "nat" {
 resource "aws_nat_gateway" "main" {
 
       allocation_id = aws_eip.nat.id
-      sunnet_id = aws_subnet.public[0].id
+      subnet_id = aws_subnet.public[0].id
       tags = merge (
 
              local.common_tags, 
@@ -151,7 +151,7 @@ resource "aws_nat_gateway" "main" {
              },
              var.nat_gateway_tags
        )
-       depands_on = [aws_internet_gateway.main]
+       depends_on = [aws_internet_gateway.main]
 }
 
 resource "aws_route" "private" {
@@ -168,7 +168,7 @@ resource "aws_route" "database" {
        nat_gateway_id = aws_nat_gateway.main.id
 }
 
-resource "aws_route_table_associate" "public" {
+resource "aws_route_table_association" "public" {
 
          count = length(var.public_subnets_cidrs)
          sunnet_id = aws_subnet.public[count.id].id
@@ -176,7 +176,7 @@ resource "aws_route_table_associate" "public" {
 
 }
 
-resource "aws_route_table_associate" "private" {
+resource "aws_route_table_association" "private" {
 
          count = length(var.private_subnets_cidrs)
          sunnet_id = aws_subnet.private[count.id].id
@@ -184,7 +184,7 @@ resource "aws_route_table_associate" "private" {
 
 }
 
-resource "aws_route_table_associate" "database" {
+resource "aws_route_table_association" "database" {
 
          count = length(var.database_subnets_cidrs)
          sunnet_id = aws_subnet.database[count.id].id
